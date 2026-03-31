@@ -1,0 +1,40 @@
+<h2>Dashboard</h2>
+
+<button onclick="getCharities()">View Charities</button>
+<button onclick="addScore()">Add Score</button>
+<button onclick="runDraw()">Run Draw (Admin)</button>
+
+<script>
+const token = localStorage.getItem("token");
+
+async function getCharities() {
+  const res = await fetch("http://localhost:5000/api/charity");
+  const data = await res.json();
+  console.log(data);
+}
+
+async function addScore() {
+  await fetch("http://localhost:5000/api/score/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token
+    },
+    body: JSON.stringify({
+      score: 25,
+      date: "2026-03-31"
+    })
+  });
+  alert("Score Added");
+}
+
+async function runDraw() {
+  await fetch("http://localhost:5000/api/admin/run-draw", {
+    method: "POST",
+    headers: {
+      "Authorization": token
+    }
+  });
+  alert("Draw Done");
+}
+</script>
